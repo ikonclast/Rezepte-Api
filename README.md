@@ -1,26 +1,33 @@
-# Rezepte-API
+# Rezepte-Kalkulator — REST-API (Backend)
 
-Eine versionierte **REST-API in Laravel** zur Verwaltung von Rezepten, Zutaten und Menüs — mit Token-Authentifizierung, rollenbasierter Autorisierung und OpenAPI-Dokumentation.
+Backend eines **Full-Stack-Projekts** zur Kalkulation von Rezept- und Menükosten: eine versionierte **REST-API in Laravel** mit Token-Authentifizierung, rollenbasierter Autorisierung und OpenAPI-Dokumentation.
 
-> Backend-Projekt mit Fokus auf sauberes API-Design: klare Ressourcen-Struktur, Sanctum-Auth, Policies, Form-Request-Validierung und ein versioniertes `/api/v1`-Layout.
+> Dieses Repository enthält das **Backend**. Es ist Teil des „Do-It"-Abschlussprojekts meiner Ausbildung zum **Wirtschaftsinformatiker** (2025) und wurde über den kompletten Software-Lifecycle umgesetzt — von Lasten-/Pflichtenheft und Softwarearchitektur bis zum Live-Deployment.
 
-## Features
+## Das Gesamtprojekt
 
-- **Authentifizierung** über Laravel Sanctum (Token-basiert): Registrierung, Login (rate-limited), Logout
-- **Autorisierung** über Policies & Middleware (z. B. Löschen nur für Admins, Self-Service via Policy)
-- **Rezepte** als verschachtelte Ressource: ein Rezept kann aus Komponenten (Zutaten/Teilrezepten) zusammengesetzt werden
+| Komponente | Technologie | Rolle |
+|---|---|---|
+| **Android-App** (Tablet) | Java/Kotlin, Android Studio | Frontend: Login, Zutaten-, Rezept- & Menüverwaltung → [App-Repo](https://github.com/ikonclast/rezepte-kalkulator-app) |
+| **REST-API** *(dieses Repo)* | Laravel, PHP 8, Sanctum | Geschäftslogik & Datenzugriff |
+| **Datenbank** | MySQL | Persistenz |
+| **Deployment** | eigener V-Server | Im Projektzeitraum live deployed (`/api`); Server inzwischen abgeschaltet |
+
+**Fachliche Idee:** Zutaten mit Preisen pflegen → Rezepte aus Komponenten (auch Teilrezepten) zusammensetzen → Menüs bilden → Kosten automatisch kalkulieren.
+
+## Features der API
+
+- **Authentifizierung** über Laravel Sanctum (Token): Registrierung, Login (rate-limited), Logout
+- **Autorisierung** über Policies & Middleware (Löschen nur für Admins, Self-Service via Policy)
+- **Rezepte** als verschachtelte Ressource — zusammengesetzt aus Komponenten (Zutaten/Teilrezepten)
 - **Zutaten** und **Menüs** als vollständige REST-Ressourcen (`apiResource`)
-- **Suche** über Rezepte/Zutaten
-- **Health-Check-Endpoint** für Monitoring/Deployment
+- **Suche** sowie **Health-Check-Endpoint** für Monitoring/Deployment
 - **OpenAPI/Swagger-Dokumentation** (l5-swagger)
+- Versioniertes Layout unter `/api/v1`
 
 ## Tech-Stack
 
-- **PHP 8.x**, **Laravel** (REST-API, kein Blade-Frontend)
-- **Laravel Sanctum** — Token-Authentifizierung
-- **MySQL** — Datenhaltung, via Eloquent ORM & Migrations
-- **l5-swagger** — API-Dokumentation (OpenAPI)
-- Form Requests für Validierung, Policies für Autorisierung, Rate-Limiting
+**PHP 8** · **Laravel** · **Laravel Sanctum** (Token-Auth) · **MySQL** (Eloquent ORM & Migrations) · **l5-swagger** (OpenAPI) · Form Requests (Validierung) · Policies (Autorisierung) · Rate-Limiting
 
 ## API-Überblick (`/api/v1`)
 
@@ -30,7 +37,7 @@ Eine versionierte **REST-API in Laravel** zur Verwaltung von Rezepten, Zutaten u
 | `POST` | `/auth/register` | Registrierung |
 | `POST` | `/auth/login` | Login (Token), rate-limited |
 
-### Geschützt (Sanctum-Token erforderlich)
+### Geschützt (Sanctum-Token)
 | Methode | Endpoint | Zweck |
 |---|---|---|
 | `POST` | `/auth/logout` | Logout |
@@ -59,10 +66,9 @@ php artisan migrate
 php artisan serve
 ```
 
-Die API läuft anschließend unter `http://localhost:8000/api/v1`.
-Die Swagger-Dokumentation ist unter `/api/documentation` erreichbar.
+API danach unter `http://localhost:8000/api/v1`, Swagger-Doku unter `/api/documentation`.
 
-## Beispiel-Request
+## Beispiel-Requests
 
 ```bash
 # Registrieren
@@ -76,10 +82,9 @@ curl -X POST http://localhost:8000/api/v1/auth/login \
   -d '{"email":"test@example.com","password":"secret123"}'
 
 # Geschützter Endpoint mit Token
-curl http://localhost:8000/api/v1/recipes \
-  -H "Authorization: Bearer <TOKEN>"
+curl http://localhost:8000/api/v1/recipes -H "Authorization: Bearer <TOKEN>"
 ```
 
-## Kontext
+## Projektkontext
 
-Übungs-/Portfolioprojekt zum Vertiefen von API-Design mit Laravel — bewusst mit Auth, Autorisierung, versionierter Struktur und Dokumentation umgesetzt, wie man es für eine produktive Schnittstelle erwarten würde.
+Abschlussprojekt („Do-It") der Ausbildung zum Wirtschaftsinformatiker (2025). Umgesetzt über den vollständigen Entwicklungsprozess inkl. Lastenheft, Pflichtenheft, Softwarearchitektur, Wirtschaftlichkeitsbetrachtung und Projektdokumentation. Bewusst mit Auth, Autorisierung, versionierter Struktur und API-Doku umgesetzt — wie man es für eine produktive Schnittstelle erwartet.
