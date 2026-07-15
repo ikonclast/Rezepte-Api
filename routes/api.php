@@ -81,7 +81,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-//SPielereinen
+//Spielereinen
 
 
 Route::get('/', function () {
