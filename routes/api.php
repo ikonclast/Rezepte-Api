@@ -85,7 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::get('/', function () {
-    return response()->json(['message' => 'Hello Frau Cramer'], 200);
+    return response()->json(['message' => 'Hello xxxx'], 200);
 });
 
 
